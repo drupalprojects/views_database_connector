@@ -3,5 +3,3 @@ description = "Gives Views the ability to see each external database's tables fr
 dependencies[] = views
 package = "Views"
 core = 7.x
-files[] = views_database_connector.module
-files[] = views_database_connector.views.inc
