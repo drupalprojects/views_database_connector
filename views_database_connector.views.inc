@@ -18,7 +18,8 @@ function views_database_connector_views_data() {
       // Fetch a row, each with a table name.
       while ($row = $tables->fetchAssoc()) {
         foreach ($row as $v) {
-          // Get a list of columns from said table.  (Apparently no sanitization is safe since it came from the database).
+          // Get a list of columns from said table.  (Apparently no
+					// sanitization is safe since it came from the database).
           $cols = db_query("SHOW COLUMNS FROM ".$v.";");
           $collist = array();
           // Fetch a row, each with a column name.
@@ -74,6 +75,7 @@ function views_database_connector_views_data() {
     }
   }
   
-  // Return the finished result, allowing Views to be able to see everything that it needs.
+  // Return the finished result, allowing Views to be able to see everything
+	// that it needs.
   return $data;
 }
