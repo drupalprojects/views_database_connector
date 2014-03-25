@@ -1,0 +1,9 @@
+name = "Views Database Connector"
+description = "Gives Views the ability to see each external database's tables from settings.php."
+dependencies[] = views
+package = "Views"
+core = 7.x
+version = "7.x-1.0-dev"
+project = "views_database_connector"
+files[] = views_database_connector.module
+files[] = views_database_connector.views.inc
