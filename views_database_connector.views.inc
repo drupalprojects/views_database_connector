@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Responsible for hooking views to add each database and its tables.
+ */
+
 /**
  * Implements hook_views_data().
  */
