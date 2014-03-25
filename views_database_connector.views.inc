@@ -5,7 +5,7 @@
 function views_database_connector_views_data() {
   $dbs = array();
   global $databases;
-  
+
   // Iterate through each of the database configurations.
   foreach (array_keys($databases) as $key) {
     // Excluding the default database.
@@ -37,26 +37,26 @@ function views_database_connector_views_data() {
   }
   // Switch back to the default database for main Drupal operation.
   db_set_active('default');
-  
+
   $data = array();
   // Iterate through each database.
   foreach ($dbs as $dname => $db) {
     // Iterate through each table.
     foreach ($db as $table) {
       // Setup the table for Views to be able to see it.
-      $data[$table[0]]['table']['group'] = t($table[0]);
+      $data[$table[0]]['table']['group'] = $table[0];
       $data[$table[0]]['table']['base'] = array(
         'field' => 'id',
-        'title' => t("[VDC] ".$dname.":  ".$table[0]),
+        'title' => "[VDC] " . $dname . ":  " . $table[0],
         'database' => $dname,
         'weight' => -9001,
       );
-      
+
       // Add each column to its respective table.
       foreach ($table[1] as $col) {
         $data[$table[0]][$col] = array(
-          'title' => t($col),
-          'help' => t($col),
+          'title' => $col,
+          'help' => $col,
           'field' => array(
             'handler' => 'views_handler_field',
             ' click sortable' => TRUE,
@@ -74,8 +74,8 @@ function views_database_connector_views_data() {
       }
     }
   }
-  
+
   // Return the finished result, allowing Views to be able to see everything
-	// that it needs.
+  // that it needs.
   return $data;
 }
