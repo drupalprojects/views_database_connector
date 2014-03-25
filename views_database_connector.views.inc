@@ -1,7 +1,7 @@
 <?php
 /**
-* Implements hook_views_data().
-*/
+ * Implements hook_views_data().
+ */
 function views_database_connector_views_data() {
   $dbs = array();
   global $databases;
