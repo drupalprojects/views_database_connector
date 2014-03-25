@@ -25,35 +25,35 @@ function views_database_connector_views_data() {
       while ($row = $tables->fetchAssoc()) {
         foreach ($row as $v) {
           // Get a list of columns from said table.
-					$q = "SELECT table_name FROM information_schema.tables WHERE table_name ";
-					$q .= "= :table;";
-					$check = db_query($q, array(":table" => $v));
-					if ($check->fetchAssoc() != false) {
-						// This sort of information gathering is safer than the below method,
-						// because it allows substitution of table name with PDO, rather than
-						// just string concatenation.  We will only sometimes be able to use
-						// this because not all database platforms have information_schema.
-						$q = "SELECT column_name FROM information_schema.columns WHERE ";
-						$q .= "table_name = :table;";
-         		$cols = db_query($q, array(":table" => $v));
-					}
-					else {
-					  // Apparently no sanitization is safe since it came from the database,
-						// but just to be safe, we use this as a fallback.  We can't use the
-						// above in the first place because PDO doesn't allow you to substitute
-						// table names in your prepared statements.
-						$cols = db_query("SHOW COLUMNS FROM " . $v . ";");
-					}
+          $q = "SELECT table_name FROM information_schema.tables WHERE table_name ";
+          $q .= "= :table;";
+          $check = db_query($q, array(":table" => $v));
+          if ($check->fetchAssoc() != FALSE) {
+            // This sort of information gathering is safer than the below method,
+            // because it allows substitution of table name with PDO, rather than
+            // just string concatenation.  We will only sometimes be able to use
+            // this because not all database platforms have information_schema.
+            $q = "SELECT column_name FROM information_schema.columns WHERE ";
+            $q .= "table_name = :table;";
+            $cols = db_query($q, array(":table" => $v));
+          }
+          else {
+            // Apparently no sanitization is safe since it came from the database,
+            // but just to be safe, we use this as a fallback.  We can't use the
+            // above in the first place because PDO doesn't allow you to substitute
+            // table names in your prepared statements.
+            $cols = db_query("SHOW COLUMNS FROM " . $v . ";");
+          }
           $collist = array();
           // Fetch a row, each with a column name.
           while ($r = $cols->fetchAssoc()) {
             // Add column to column list.
-						if (isset($r['column_name'])) {
-							$collist[] = $r['column_name'];
-						}
-						else {
-	            $collist[] = $r['Field'];
-						}
+            if (isset($r['column_name'])) {
+              $collist[] = $r['column_name'];
+            }
+            else {
+              $collist[] = $r['Field'];
+            }
           }
           // Add table and its columns to the table list.
           $tablelist[] = array($v, $collist);
