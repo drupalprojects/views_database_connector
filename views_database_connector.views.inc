@@ -20,7 +20,7 @@ function views_database_connector_views_data() {
         foreach ($row as $v) {
           // Get a list of columns from said table.  (Apparently no
 					// sanitization is safe since it came from the database).
-          $cols = db_query("SHOW COLUMNS FROM ".$v.";");
+          $cols = db_query("SHOW COLUMNS FROM " . $v . ";");
           $collist = array();
           // Fetch a row, each with a column name.
           while ($r = $cols->fetchAssoc()) {
