@@ -1,6 +1,6 @@
 <?php
-  function views_database_connector_views_api() {
-    return array(
-      'api' => 3,
-    );
-  }
+function views_database_connector_views_api() {
+  return array(
+    'api' => 3,
+  );
+}
