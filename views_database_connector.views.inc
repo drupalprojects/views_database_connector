@@ -64,14 +64,14 @@ function views_database_connector_views_data() {
           // Removing potentially unsafe code, but commenting it out to
           // allow people to use it if they need it.
           //
-          // else {
-          //   // Apparently no sanitization is safe since it came from the
-          //   // database, but just to be safe, we use this as a fallback.  We
-          //   // can't use the above in the first place because PDO doesn't allow
-          //   // you to substitute table names in your prepared statements.
-          //   $cols = db_query("SHOW COLUMNS FROM " . $v . ";");
-          // }
-          
+          // // else {
+          // //   // Apparently no sanitization is safe since it came from the
+          // //   // database, but just to be safe, we use this as a fallback.  We
+          // //   // can't use the above in the first place because PDO doesn't
+          // //   // allow you to substitute table names in your prepared
+					// //   // statements.
+          // //   $cols = db_query("SHOW COLUMNS FROM " . $v . ";");
+          // // }
           $collist = array();
           // Fetch a row, each with a column name.
           while ($r = $cols->fetchAssoc()) {
@@ -90,16 +90,16 @@ function views_database_connector_views_data() {
             // Removing potentially unsafe code, but commenting it out to
             // allow people to use it if they need it.
             //
-            // if (isset($r['Type'])) {
-            //   foreach ($types as $type => $matches) {
-            //     foreach ($matches as $match) {
-            //       if (stristr($r['Type'], $match)) {
-            //         $t = $type;
-            //       }
-            //     }
-            //   }
-            //   $collist[] = array($t, $r['Field']);
-            // }
+            // // if (isset($r['Type'])) {
+            // //   foreach ($types as $type => $matches) {
+            // //     foreach ($matches as $match) {
+            // //       if (stristr($r['Type'], $match)) {
+            // //         $t = $type;
+            // //       }
+            // //     }
+            // //   }
+            // //   $collist[] = array($t, $r['Field']);
+            // // }
           }
           // Add table and its columns to the table list.
           $tablelist[] = array($v, $collist);
