@@ -101,7 +101,7 @@ function views_database_connector_get_database_schemas() {
           foreach ($row as $v) {
             // Fetch column names and their data type from said table.
             $q = "SELECT column_name, data_type FROM ";
-            $q .= "`information_schema`.`columns` WHERE table_name = :table;";
+            $q .= "information_schema.columns WHERE table_name = :table;";
             $cols = db_query($q, array(":table" => $v));
             $collist = array();
             // Fetch a row, each with a column name.
@@ -128,7 +128,7 @@ function views_database_connector_get_database_schemas() {
       }
       if (strtolower($datab['default']['driver']) == 'sqlite') {
         // Get a list of the tables in this database.
-        $q = "SELECT name FROM `sqlite_master` WHERE type='table';";
+        $q = "SELECT name FROM sqlite_master WHERE type='table';";
         $tables = db_query($q);
         $tablelist = array();
         // Fetch a row, each with a table name.
