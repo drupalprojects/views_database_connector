@@ -128,27 +128,30 @@ function getDatabaseSchemas() {
 	      // Fetch a row, each with a table name.
 	      while ($row = $tables->fetchAssoc()) {
 	        foreach ($row as $v) {
-            // Fetch column names and their data type from said table.
-            $q = "PRAGMA table_info(:table);";
-            $cols = db_query($q, array(":table" => $v));
-	          $collist = array();
-	          // Fetch a row, each with a column name.
-	          while ($r = $cols->fetchAssoc()) {
-	            $t = 'broken';
-	            // Add column to column list.
-	            if (isset($r['name'])) {
-	              foreach ($types as $type => $matches) {
-	                foreach ($matches as $match) {
-	                  if (stristr($r['type'], $match)) {
-	                    $t = $type;
-	                  }
-	                }
-	              }
-	              $collist[] = array($t, $r['name']);
-	            }
-	          }
-	          // Add table and its columns to the table list.
-	          $tablelist[] = array($v, $collist);
+						// Check that the table name is safe to substitute in the query.
+						if ($v == db_escape_table($v)) {
+	            // Fetch column names and their data type from said table.
+	            $q = "PRAGMA table_info(:table);";
+	            $cols = db_query(str_ireplace(":table", $v, $q));
+		          $collist = array();
+		          // Fetch a row, each with a column name.
+		          while ($r = $cols->fetchAssoc()) {
+		            $t = 'broken';
+		            // Add column to column list.
+		            if (isset($r['name'])) {
+		              foreach ($types as $type => $matches) {
+		                foreach ($matches as $match) {
+		                  if (stristr($r['type'], $match)) {
+		                    $t = $type;
+		                  }
+		                }
+		              }
+		              $collist[] = array($t, $r['name']);
+		            }
+		          }
+		          // Add table and its columns to the table list.
+		          $tablelist[] = array($v, $collist);
+						}
 	        }
 	      }
 	      // Add table list to the database list.
