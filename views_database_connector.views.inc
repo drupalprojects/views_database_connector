@@ -52,6 +52,9 @@ function views_database_connector_views_data() {
   return $data;
 }
 
+/**
+ * Gathers appropriate information from each potential database driver type.
+ */
 function views_database_connector_get_database_schemas() {
   $dbs = array();
   $types = array(
