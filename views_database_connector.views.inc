@@ -66,10 +66,10 @@ function views_database_connector_views_data() {
           //
           // // else {
           // //   // Apparently no sanitization is safe since it came from the
-          // //   // database, but just to be safe, we use this as a fallback.  We
-          // //   // can't use the above in the first place because PDO doesn't
-          // //   // allow you to substitute table names in your prepared
-					// //   // statements.
+          // //   // database, but just to be safe, we use this as a fallback.
+          // //   // We can't use the above in the first place because PDO
+          // //   // doesn't allow you to substitute table names in your
+          // //   // prepared statements.
           // //   $cols = db_query("SHOW COLUMNS FROM " . $v . ";");
           // // }
           $collist = array();
