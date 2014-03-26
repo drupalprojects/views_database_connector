@@ -92,6 +92,9 @@ function getDatabaseSchemas() {
 	      $tablelist = array();
 	      // Fetch a row, each with a table name.
 	      while ($row = $tables->fetchAssoc()) {
+					// This is the one of two database formats that can have whacky table
+					// names due to using information_schema.  We have the ability to check
+					// on columns without the PDO table substitution problem.
 	        foreach ($row as $v) {
             // Fetch column names and their data type from said table.
             $q = "SELECT column_name, data_type FROM ";
@@ -122,7 +125,7 @@ function getDatabaseSchemas() {
 			}
 			if (strtolower($datab['default']['driver']) == 'sqlite') {
 	      // Get a list of the tables in this database.
-				$q = "SELECT name FROM sqlite_master WHERE type='table';";
+				$q = "SELECT name FROM `sqlite_master` WHERE type='table';";
 	      $tables = db_query($q);
 	      $tablelist = array();
 	      // Fetch a row, each with a table name.
@@ -159,21 +162,18 @@ function getDatabaseSchemas() {
 			}
 			if (strtolower($datab['default']['driver']) == 'pgsql') {
 	      // Get a list of the tables in this database.
-	      $tables = db_query("SHOW TABLES;");
+				$q = "SELECT table_name FROM information_schema.tables WHERE table_type =";
+				$q .= " 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', "
+				$q .= "'information_schema');";
+	      $tables = db_query($q);
 	      $tablelist = array();
 	      // Fetch a row, each with a table name.
 	      while ($row = $tables->fetchAssoc()) {
 	        foreach ($row as $v) {
-	          // Get a list of columns from said table.
-	          $q = "SELECT table_name FROM `information_schema`.`tables` WHERE ";
-	          $q .= "table_name = :table;";
-	          $check = db_query($q, array(":table" => $v));
-	          if ($check->fetchAssoc() != FALSE) {
-	            // Fetch column names and their data type from said table.
-	            $q = "SELECT column_name, data_type FROM ";
-	            $q .= "`information_schema`.`columns` WHERE table_name = :table;";
-	            $cols = db_query($q, array(":table" => $v));
-	          }
+            // Fetch column names and their data type from said table.
+            $q = "SELECT column_name, data_type FROM ";
+            $q .= "`information_schema`.`columns` WHERE table_name = :table;";
+            $cols = db_query($q, array(":table" => $v));
 	          $collist = array();
 	          // Fetch a row, each with a column name.
 	          while ($r = $cols->fetchAssoc()) {
