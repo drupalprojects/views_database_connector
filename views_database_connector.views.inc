@@ -163,7 +163,7 @@ function getDatabaseSchemas() {
 			if (strtolower($datab['default']['driver']) == 'pgsql') {
 	      // Get a list of the tables in this database.
 				$q = "SELECT table_name FROM information_schema.tables WHERE table_type =";
-				$q .= " 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', "
+				$q .= " 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', ";
 				$q .= "'information_schema');";
 	      $tables = db_query($q);
 	      $tablelist = array();
