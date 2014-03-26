@@ -10,8 +10,31 @@
  */
 function views_database_connector_views_data() {
   $dbs = array();
+  $types = array(
+    "numeric" => array(
+      "int",
+      "decimal",
+      "numeric",
+      "float",
+      "double",
+      "bit"
+    ),
+    "date" => array(
+      "date",
+      "time",
+      "year"
+    ),
+    "string" => array(
+      "char",
+      "binary",
+      "blob",
+      "text",
+      "enum",
+      "set"
+    )
+  );
+  
   global $databases;
-
   // Iterate through each of the database configurations.
   foreach (array_keys($databases) as $key) {
     // Excluding the default database.
@@ -34,7 +57,7 @@ function views_database_connector_views_data() {
             // rather than just string concatenation.  We will only sometimes
             // be able to use this because not all database platforms have
             // information_schema.
-            $q = "SELECT column_name FROM information_schema.columns WHERE ";
+            $q = "SELECT column_name, data_type FROM information_schema.columns WHERE ";
             $q .= "table_name = :table;";
             $cols = db_query($q, array(":table" => $v));
           }
@@ -48,12 +71,27 @@ function views_database_connector_views_data() {
           $collist = array();
           // Fetch a row, each with a column name.
           while ($r = $cols->fetchAssoc()) {
+            $t = 'broken';
             // Add column to column list.
             if (isset($r['column_name'])) {
-              $collist[] = $r['column_name'];
+              foreach ($types as $type => $matches) {
+                foreach ($matches as $match) {
+                if (stristr($r['data_type'], $match)) {
+                  $t = $type;
+                }
+              }
+              }
+              $collist[] = array($t, $r['column_name']);
             }
             else {
-              $collist[] = $r['Field'];
+              foreach ($types as $type => $matches) {
+                foreach ($matches as $match) {
+                if (stristr($r['Type'], $match)) {
+                  $t = $type;
+                }
+              }
+              }
+              $collist[] = array($t, $r['Field']);
             }
           }
           // Add table and its columns to the table list.
@@ -83,9 +121,9 @@ function views_database_connector_views_data() {
 
       // Add each column to its respective table.
       foreach ($table[1] as $col) {
-        $data[$table[0]][$col] = array(
-          'title' => $col,
-          'help' => $col,
+        $data[$table[0]][$col[1]] = array(
+          'title' => $col[1],
+          'help' => $col[1],
           'field' => array(
             'handler' => 'views_handler_field',
             ' click sortable' => TRUE,
@@ -94,10 +132,10 @@ function views_database_connector_views_data() {
             'handler' => 'views_handler_sort',
           ),
           'filter' => array(
-            'handler' => 'views_handler_filter_string',
+            'handler' => 'views_handler_filter_' . $col[0],
           ),
           'argument' => array(
-            'handler' => 'views_handler_argument_string',
+            'handler' => 'views_handler_argument_' . $col[0],
           ),
         );
       }
