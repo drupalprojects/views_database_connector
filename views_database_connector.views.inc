@@ -172,7 +172,7 @@ function getDatabaseSchemas() {
 	        foreach ($row as $v) {
             // Fetch column names and their data type from said table.
             $q = "SELECT column_name, data_type FROM ";
-            $q .= "`information_schema`.`columns` WHERE table_name = :table;";
+            $q .= "information_schema.columns WHERE table_name = :table;";
             $cols = db_query($q, array(":table" => $v));
 	          $collist = array();
 	          // Fetch a row, each with a column name.
