@@ -17,12 +17,12 @@ function views_database_connector_views_data() {
       "numeric",
       "float",
       "double",
-      "bit"
+      "bit",
     ),
     "date" => array(
       "date",
       "time",
-      "year"
+      "year",
     ),
     "string" => array(
       "char",
@@ -30,10 +30,10 @@ function views_database_connector_views_data() {
       "blob",
       "text",
       "enum",
-      "set"
-    )
+      "set",
+    ),
   );
-  
+
   global $databases;
   // Iterate through each of the database configurations.
   foreach (array_keys($databases) as $key) {
@@ -76,20 +76,20 @@ function views_database_connector_views_data() {
             if (isset($r['column_name'])) {
               foreach ($types as $type => $matches) {
                 foreach ($matches as $match) {
-                if (stristr($r['data_type'], $match)) {
-                  $t = $type;
+                  if (stristr($r['data_type'], $match)) {
+                    $t = $type;
+                  }
                 }
-              }
               }
               $collist[] = array($t, $r['column_name']);
             }
             else {
               foreach ($types as $type => $matches) {
                 foreach ($matches as $match) {
-                if (stristr($r['Type'], $match)) {
-                  $t = $type;
+                  if (stristr($r['Type'], $match)) {
+                    $t = $type;
+                  }
                 }
-              }
               }
               $collist[] = array($t, $r['Field']);
             }
