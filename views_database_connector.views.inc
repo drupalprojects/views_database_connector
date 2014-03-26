@@ -96,8 +96,8 @@ function views_database_connector_get_database_schemas() {
         // Fetch a row, each with a table name.
         while ($row = $tables->fetchAssoc()) {
           // This is the one of two database formats that can have whacky table
-          // names due to using information_schema.  We have the ability to check
-          // on columns without the PDO table substitution problem.
+          // names due to using information_schema.  We have the ability to
+          // check on columns without the PDO table substitution problem.
           foreach ($row as $v) {
             // Fetch column names and their data type from said table.
             $q = "SELECT column_name, data_type FROM ";
