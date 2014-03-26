@@ -15,34 +15,37 @@ function views_database_connector_views_data() {
   foreach ($dbs as $dname => $db) {
     // Iterate through each table.
     foreach ($db as $table) {
-      // Setup the table for Views to be able to see it.
-      $data[$table[0]]['table']['group'] = $table[0];
-      $data[$table[0]]['table']['base'] = array(
-        'field' => 'id',
-        'title' => "[VDC] " . $dname . ":  " . $table[0],
-        'database' => $dname,
-        'weight' => -9001,
-      );
-
-      // Add each column to its respective table.
-      foreach ($table[1] as $col) {
-        $data[$table[0]][$col[1]] = array(
-          'title' => $col[1],
-          'help' => $col[1],
-          'field' => array(
-            'handler' => 'views_handler_field',
-            ' click sortable' => TRUE,
-          ),
-          'sort' => array(
-            'handler' => 'views_handler_sort',
-          ),
-          'filter' => array(
-            'handler' => 'views_handler_filter_' . $col[0],
-          ),
-          'argument' => array(
-            'handler' => 'views_handler_argument_' . $col[0],
-          ),
+      // Make sure the table name hasn't been used before.
+      if (!isset($data[$table[0]])) {
+        // Setup the table for Views to be able to see it.
+        $data[$table[0]]['table']['group'] = $table[0];
+        $data[$table[0]]['table']['base'] = array(
+          'field' => 'id',
+          'title' => "[VDC] " . $dname . ":  " . $table[0],
+          'database' => $dname,
+          'weight' => -9001,
         );
+
+        // Add each column to its respective table.
+        foreach ($table[1] as $col) {
+          $data[$table[0]][$col[1]] = array(
+            'title' => $col[1],
+            'help' => $col[1],
+            'field' => array(
+              'handler' => 'views_handler_field',
+              ' click sortable' => TRUE,
+            ),
+            'sort' => array(
+              'handler' => 'views_handler_sort',
+            ),
+            'filter' => array(
+              'handler' => 'views_handler_filter_' . $col[0],
+            ),
+            'argument' => array(
+              'handler' => 'views_handler_argument_' . $col[0],
+            ),
+          );
+        }
       }
     }
   }
@@ -99,28 +102,30 @@ function views_database_connector_get_database_schemas() {
           // names due to using information_schema.  We have the ability to
           // check on columns without the PDO table substitution problem.
           foreach ($row as $v) {
-            // Fetch column names and their data type from said table.
-            $q = "SELECT column_name, data_type FROM ";
-            $q .= "information_schema.columns WHERE table_name = :table;";
-            $cols = db_query($q, array(":table" => $v));
-            $collist = array();
-            // Fetch a row, each with a column name.
-            while ($r = $cols->fetchAssoc()) {
-              $t = 'broken';
-              // Add column to column list.
-              if (isset($r['column_name'])) {
-                foreach ($types as $type => $matches) {
-                  foreach ($matches as $match) {
-                    if (stristr($r['data_type'], $match)) {
-                      $t = $type;
+            if (!in_array($v, array_keys(drupal_get_complete_schema()))) {
+              // Fetch column names and their data type from said table.
+              $q = "SELECT column_name, data_type FROM ";
+              $q .= "information_schema.columns WHERE table_name = :table;";
+              $cols = db_query($q, array(":table" => $v));
+              $collist = array();
+              // Fetch a row, each with a column name.
+              while ($r = $cols->fetchAssoc()) {
+                $t = 'broken';
+                // Add column to column list.
+                if (isset($r['column_name'])) {
+                  foreach ($types as $type => $matches) {
+                    foreach ($matches as $match) {
+                      if (stristr($r['data_type'], $match)) {
+                        $t = $type;
+                      }
                     }
                   }
+                  $collist[] = array($t, $r['column_name']);
                 }
-                $collist[] = array($t, $r['column_name']);
               }
+              // Add table and its columns to the table list.
+              $tablelist[] = array($v, $collist);
             }
-            // Add table and its columns to the table list.
-            $tablelist[] = array($v, $collist);
           }
         }
         // Add table list to the database list.
