@@ -89,12 +89,13 @@ function views_database_connector_get_database_schemas() {
   foreach ($databases as $key => $datab) {
     // Excluding the default database.
     if ($key != 'default') {
-      // Switch to database in question.
-      db_set_active($key);
-
       if (strtolower($datab['default']['driver']) == 'mysql') {
+	      // Switch to database in question.
+	      db_set_active($key);
         // Get a list of the tables in this database.
         $tables = db_query("SHOW TABLES;");
+			  // Switch back to the main database.
+			  db_set_active('default');
         $tablelist = array();
         // Fetch a row, each with a table name.
         while ($row = $tables->fetchAssoc()) {
@@ -103,10 +104,14 @@ function views_database_connector_get_database_schemas() {
           // check on columns without the PDO table substitution problem.
           foreach ($row as $v) {
             if (!in_array($v, array_keys(drupal_get_complete_schema()))) {
+				      // Switch to database in question.
+				      db_set_active($key);
               // Fetch column names and their data type from said table.
               $q = "SELECT column_name, data_type FROM ";
               $q .= "information_schema.columns WHERE table_name = :table;";
               $cols = db_query($q, array(":table" => $v));
+						  // Switch back to the main database.
+						  db_set_active('default');
               $collist = array();
               // Fetch a row, each with a column name.
               while ($r = $cols->fetchAssoc()) {
@@ -132,18 +137,26 @@ function views_database_connector_get_database_schemas() {
         $dbs[$key] = $tablelist;
       }
       if (strtolower($datab['default']['driver']) == 'sqlite') {
+	      // Switch to database in question.
+	      db_set_active($key);
         // Get a list of the tables in this database.
         $q = "SELECT name FROM sqlite_master WHERE type='table';";
         $tables = db_query($q);
+			  // Switch back to the main database.
+			  db_set_active('default');
         $tablelist = array();
         // Fetch a row, each with a table name.
         while ($row = $tables->fetchAssoc()) {
           foreach ($row as $v) {
             // Check that the table name is safe to substitute in the query.
             if ($v == db_escape_table($v)) {
+				      // Switch to database in question.
+				      db_set_active($key);
               // Fetch column names and their data type from said table.
               $q = "PRAGMA table_info(:table);";
               $cols = db_query(str_ireplace(":table", $v, $q));
+						  // Switch back to the main database.
+						  db_set_active('default');
               $collist = array();
               // Fetch a row, each with a column name.
               while ($r = $cols->fetchAssoc()) {
@@ -169,19 +182,27 @@ function views_database_connector_get_database_schemas() {
         $dbs[$key] = $tablelist;
       }
       if (strtolower($datab['default']['driver']) == 'pgsql') {
+	      // Switch to database in question.
+	      db_set_active($key);
         // Get a list of the tables in this database.
         $q = "SELECT table_name FROM information_schema.tables WHERE table_type =";
         $q .= " 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', ";
         $q .= "'information_schema');";
         $tables = db_query($q);
+			  // Switch back to the main database.
+			  db_set_active('default');
         $tablelist = array();
         // Fetch a row, each with a table name.
         while ($row = $tables->fetchAssoc()) {
           foreach ($row as $v) {
+			      // Switch to database in question.
+			      db_set_active($key);
             // Fetch column names and their data type from said table.
             $q = "SELECT column_name, data_type FROM ";
             $q .= "information_schema.columns WHERE table_name = :table;";
             $cols = db_query($q, array(":table" => $v));
+					  // Switch back to the main database.
+					  db_set_active('default');
             $collist = array();
             // Fetch a row, each with a column name.
             while ($r = $cols->fetchAssoc()) {
@@ -207,7 +228,5 @@ function views_database_connector_get_database_schemas() {
       }
     }
   }
-  // Switch back to the default database for main Drupal operation.
-  db_set_active('default');
   return $dbs;
 }
