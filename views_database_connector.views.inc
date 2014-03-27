@@ -20,7 +20,8 @@ function views_database_connector_views_data() {
         // Setup the table for Views to be able to see it.
         $data[$table[0]]['table']['group'] = $table[0];
         $data[$table[0]]['table']['base'] = array(
-          'field' => 'id',
+          // Use the first column's name as the primary field.
+          'field' => $table[1][0][1],
           'title' => "[VDC] " . $dname . ":  " . $table[0],
           'database' => $dname,
           'weight' => -9001,
