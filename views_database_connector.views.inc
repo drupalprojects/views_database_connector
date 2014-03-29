@@ -34,13 +34,13 @@ function views_database_connector_views_data() {
               'title' => $col[1],
               'help' => $col[1],
               'field' => array(
-                'handler' => 'numeric',
+                'id' => 'numeric',
               ),
               'sort' => array(
-                'handler' => 'standard',
+                'id' => 'standard',
               ),
               'filter' => array(
-                'handler' => 'numeric',
+                'id' => 'numeric',
               ),
             );
           }
@@ -49,13 +49,13 @@ function views_database_connector_views_data() {
               'title' => $col[1],
               'help' => $col[1],
               'field' => array(
-                'handler' => 'date',
+                'id' => 'date',
               ),
               'sort' => array(
-                'handler' => 'date',
+                'id' => 'date',
               ),
               'filter' => array(
-                'handler' => 'date',
+                'id' => 'date',
               ),
             );
           }
@@ -64,16 +64,16 @@ function views_database_connector_views_data() {
               'title' => $col[1],
               'help' => $col[1],
               'field' => array(
-                'handler' => 'standard',
+                'id' => 'standard',
               ),
               'sort' => array(
-                'handler' => 'standard',
+                'id' => 'standard',
               ),
               'filter' => array(
-                'handler' => 'string',
+                'id' => 'string',
               ),
               'argument' => array(
-                'handler' => 'string',
+                'id' => 'string',
               ),
             );
           }
