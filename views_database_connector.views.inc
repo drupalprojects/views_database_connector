@@ -29,23 +29,57 @@ function views_database_connector_views_data() {
 
         // Add each column to its respective table.
         foreach ($table[1] as $col) {
-          $data[$table[0]][$col[1]] = array(
-            'title' => $col[1],
-            'help' => $col[1],
-            'field' => array(
-              'handler' => 'views_handler_field',
-              'click sortable' => TRUE,
-            ),
-            'sort' => array(
-              'handler' => 'views_handler_sort',
-            ),
-            'filter' => array(
-              'handler' => 'views_handler_filter_' . $col[0],
-            ),
-            'argument' => array(
-              'handler' => 'views_handler_argument_' . $col[0],
-            ),
-          );
+					if ($col[0] == "numeric") {
+	          $data[$table[0]][$col[1]] = array(
+	            'title' => $col[1],
+	            'help' => $col[1],
+	            'field' => array(
+	              'handler' => 'views_handler_field_numeric',
+	              'click sortable' => TRUE,
+	            ),
+	            'sort' => array(
+	              'handler' => 'views_handler_sort',
+	            ),
+	            'filter' => array(
+	              'handler' => 'views_handler_filter_numeric',
+	            ),
+	          );
+					}
+					if ($col[0] == "date") {
+	          $data[$table[0]][$col[1]] = array(
+	            'title' => $col[1],
+	            'help' => $col[1],
+	            'field' => array(
+	              'handler' => 'views_handler_field_date',
+	              'click sortable' => TRUE,
+	            ),
+	            'sort' => array(
+	              'handler' => 'views_handler_sort_date',
+	            ),
+	            'filter' => array(
+	              'handler' => 'views_handler_filter_date',
+	            ),
+	          );
+					}
+					if ($col[0] == "string") {
+	          $data[$table[0]][$col[1]] = array(
+	            'title' => $col[1],
+	            'help' => $col[1],
+	            'field' => array(
+	              'handler' => 'views_handler_field',
+	              'click sortable' => TRUE,
+	            ),
+	            'sort' => array(
+	              'handler' => 'views_handler_sort',
+	            ),
+	            'filter' => array(
+	              'handler' => 'views_handler_filter_string',
+	            ),
+	            'argument' => array(
+	              'handler' => 'views_handler_argument_string',
+	            ),
+	          );
+					}
         }
       }
     }
