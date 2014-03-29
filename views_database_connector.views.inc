@@ -34,14 +34,13 @@ function views_database_connector_views_data() {
 	            'title' => $col[1],
 	            'help' => $col[1],
 	            'field' => array(
-	              'handler' => 'views_handler_field_numeric',
-	              'click sortable' => TRUE,
+	              'handler' => 'numeric',
 	            ),
 	            'sort' => array(
-	              'handler' => 'views_handler_sort',
+	              'handler' => 'standard',
 	            ),
 	            'filter' => array(
-	              'handler' => 'views_handler_filter_numeric',
+	              'handler' => 'numeric',
 	            ),
 	          );
 					}
@@ -50,14 +49,13 @@ function views_database_connector_views_data() {
 	            'title' => $col[1],
 	            'help' => $col[1],
 	            'field' => array(
-	              'handler' => 'views_handler_field_date',
-	              'click sortable' => TRUE,
+	              'handler' => 'date',
 	            ),
 	            'sort' => array(
-	              'handler' => 'views_handler_sort_date',
+	              'handler' => 'date',
 	            ),
 	            'filter' => array(
-	              'handler' => 'views_handler_filter_date',
+	              'handler' => 'date',
 	            ),
 	          );
 					}
@@ -66,17 +64,16 @@ function views_database_connector_views_data() {
 	            'title' => $col[1],
 	            'help' => $col[1],
 	            'field' => array(
-	              'handler' => 'views_handler_field',
-	              'click sortable' => TRUE,
+	              'handler' => 'standard',
 	            ),
 	            'sort' => array(
-	              'handler' => 'views_handler_sort',
+	              'handler' => 'standard',
 	            ),
 	            'filter' => array(
-	              'handler' => 'views_handler_filter_string',
+	              'handler' => 'string',
 	            ),
 	            'argument' => array(
-	              'handler' => 'views_handler_argument_string',
+	              'handler' => 'string',
 	            ),
 	          );
 					}

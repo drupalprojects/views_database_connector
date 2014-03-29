@@ -1,5 +1,7 @@
-name = "Views Database Connector"
-description = "Gives Views the ability to see each external database's tables from settings.php."
-dependencies[] = views
-package = "Views"
-core = 7.x
+name: "Views Database Connector"
+type: module
+description: "Gives Views the ability to see each external database's tables from settings.php."
+dependencies:
+  - views
+package: "Views"
+core: 8.x
