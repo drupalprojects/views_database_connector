@@ -29,54 +29,54 @@ function views_database_connector_views_data() {
 
         // Add each column to its respective table.
         foreach ($table[1] as $col) {
-					if ($col[0] == "numeric") {
-	          $data[$table[0]][$col[1]] = array(
-	            'title' => $col[1],
-	            'help' => $col[1],
-	            'field' => array(
-	              'handler' => 'numeric',
-	            ),
-	            'sort' => array(
-	              'handler' => 'standard',
-	            ),
-	            'filter' => array(
-	              'handler' => 'numeric',
-	            ),
-	          );
-					}
-					if ($col[0] == "date") {
-	          $data[$table[0]][$col[1]] = array(
-	            'title' => $col[1],
-	            'help' => $col[1],
-	            'field' => array(
-	              'handler' => 'date',
-	            ),
-	            'sort' => array(
-	              'handler' => 'date',
-	            ),
-	            'filter' => array(
-	              'handler' => 'date',
-	            ),
-	          );
-					}
-					if ($col[0] == "string") {
-	          $data[$table[0]][$col[1]] = array(
-	            'title' => $col[1],
-	            'help' => $col[1],
-	            'field' => array(
-	              'handler' => 'standard',
-	            ),
-	            'sort' => array(
-	              'handler' => 'standard',
-	            ),
-	            'filter' => array(
-	              'handler' => 'string',
-	            ),
-	            'argument' => array(
-	              'handler' => 'string',
-	            ),
-	          );
-					}
+          if ($col[0] == "numeric") {
+            $data[$table[0]][$col[1]] = array(
+              'title' => $col[1],
+              'help' => $col[1],
+              'field' => array(
+                'handler' => 'numeric',
+              ),
+              'sort' => array(
+                'handler' => 'standard',
+              ),
+              'filter' => array(
+                'handler' => 'numeric',
+              ),
+            );
+          }
+          if ($col[0] == "date") {
+            $data[$table[0]][$col[1]] = array(
+              'title' => $col[1],
+              'help' => $col[1],
+              'field' => array(
+                'handler' => 'date',
+              ),
+              'sort' => array(
+                'handler' => 'date',
+              ),
+              'filter' => array(
+                'handler' => 'date',
+              ),
+            );
+          }
+          if ($col[0] == "string") {
+            $data[$table[0]][$col[1]] = array(
+              'title' => $col[1],
+              'help' => $col[1],
+              'field' => array(
+                'handler' => 'standard',
+              ),
+              'sort' => array(
+                'handler' => 'standard',
+              ),
+              'filter' => array(
+                'handler' => 'string',
+              ),
+              'argument' => array(
+                'handler' => 'string',
+              ),
+            );
+          }
         }
       }
     }
