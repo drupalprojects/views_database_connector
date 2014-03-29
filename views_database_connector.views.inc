@@ -34,7 +34,7 @@ function views_database_connector_views_data() {
             'help' => $col[1],
             'field' => array(
               'handler' => 'views_handler_field',
-              ' click sortable' => TRUE,
+              'click sortable' => TRUE,
             ),
             'sort' => array(
               'handler' => 'views_handler_sort',
