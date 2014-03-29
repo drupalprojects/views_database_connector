@@ -217,9 +217,9 @@ function views_database_connector_get_database_schemas() {
         // Switch to database in question.
         db_set_active($key);
         // Get a list of the tables in this database.
-        $q = "SELECT table_name FROM information_schema.tables WHERE table_type =";
-        $q .= " 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', ";
-        $q .= "'information_schema');";
+        $q = "SELECT table_name FROM ";
+        $q .= "information_schema.tables WHERE table_type = 'BASE TABLE' AND ";
+        $q .= "table_schema NOT IN ('pg_catalog', 'information_schema');";
         $tables = db_query($q);
         // Switch back to the main database.
         db_set_active('default');
