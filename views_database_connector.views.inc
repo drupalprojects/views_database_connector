@@ -22,14 +22,14 @@ function views_database_connector_views_data() {
         $data[$table[0]]['table']['base'] = array(
           // Use the first column's name as the primary field.
           'field' => $table[1][0][1],
-          'title' => "[VDC] " . $dname . ":  " . $table[0],
+          'title' => '[VDC] ' . $dname . ':  ' . $table[0],
           'database' => $dname,
           'weight' => -9001,
         );
 
         // Add each column to its respective table.
         foreach ($table[1] as $col) {
-          if ($col[0] == "numeric") {
+          if ($col[0] == 'numeric') {
             $data[$table[0]][$col[1]] = array(
               'title' => $col[1],
               'help' => $col[1],
@@ -48,7 +48,7 @@ function views_database_connector_views_data() {
               ),
             );
           }
-          if ($col[0] == "date") {
+          if ($col[0] == 'date') {
             $data[$table[0]][$col[1]] = array(
               'title' => $col[1],
               'help' => $col[1],
@@ -64,7 +64,7 @@ function views_database_connector_views_data() {
               ),
             );
           }
-          if ($col[0] == "string") {
+          if ($col[0] == 'string') {
             $data[$table[0]][$col[1]] = array(
               'title' => $col[1],
               'help' => $col[1],
@@ -98,26 +98,26 @@ function views_database_connector_views_data() {
  */
 function views_database_connector_get_data_types() {
   $types = array(
-    "numeric" => array(
-      "int",
-      "decimal",
-      "numeric",
-      "float",
-      "double",
-      "bit",
+    'numeric' => array(
+      'int',
+      'decimal',
+      'numeric',
+      'float',
+      'double',
+      'bit',
     ),
-    "date" => array(
-      "date",
-      "time",
-      "year",
+    'date' => array(
+      'date',
+      'time',
+      'year',
     ),
-    "string" => array(
-      "char",
-      "binary",
-      "blob",
-      "text",
-      "enum",
-      "set",
+    'string' => array(
+      'char',
+      'binary',
+      'blob',
+      'text',
+      'enum',
+      'set',
     ),
   );
 
@@ -162,7 +162,7 @@ function views_database_connector_get_database_schema_mysql($key) {
   // Switch to database in question.
   db_set_active($key);
   // Get a list of the tables in this database.
-  $tables = db_query("SHOW TABLES;");
+  $tables = db_query('SHOW TABLES;');
   // Switch back to the main database.
   db_set_active('default');
   $tablelist = array();
@@ -176,9 +176,9 @@ function views_database_connector_get_database_schema_mysql($key) {
         // Switch to database in question.
         db_set_active($key);
         // Fetch column names and their data type from said table.
-        $q = "SELECT column_name, data_type FROM ";
-        $q .= "information_schema.columns WHERE table_name = :table;";
-        $cols = db_query($q, array(":table" => $v));
+        $q = 'SELECT column_name, data_type FROM ';
+        $q .= 'information_schema.columns WHERE table_name = :table;';
+        $cols = db_query($q, array(':table' => $v));
         // Switch back to the main database.
         db_set_active('default');
         $collist = array();
@@ -216,7 +216,7 @@ function views_database_connector_get_database_schema_sqlite($key) {
   // Switch to database in question.
   db_set_active($key);
   // Get a list of the tables in this database.
-  $q = "SELECT name FROM sqlite_master WHERE type='table';";
+  $q = 'SELECT name FROM sqlite_master WHERE type=\'table\';';
   $tables = db_query($q);
   // Switch back to the main database.
   db_set_active('default');
@@ -229,8 +229,8 @@ function views_database_connector_get_database_schema_sqlite($key) {
         // Switch to database in question.
         db_set_active($key);
         // Fetch column names and their data type from said table.
-        $q = "PRAGMA table_info(:table);";
-        $cols = db_query(str_ireplace(":table", $v, $q));
+        $q = 'PRAGMA table_info(:table);';
+        $cols = db_query(str_ireplace(':table', $v, $q));
         // Switch back to the main database.
         db_set_active('default');
         $collist = array();
@@ -268,9 +268,9 @@ function views_database_connector_get_database_schema_pgsql($key) {
   // Switch to database in question.
   db_set_active($key);
   // Get a list of the tables in this database.
-  $q = "SELECT table_name FROM ";
-  $q .= "information_schema.tables WHERE table_type = 'BASE TABLE' AND ";
-  $q .= "table_schema NOT IN ('pg_catalog', 'information_schema');";
+  $q = 'SELECT table_name FROM ';
+  $q .= 'information_schema.tables WHERE table_type = \'BASE TABLE\' AND ';
+  $q .= 'table_schema NOT IN (\'pg_catalog\', \'information_schema\');';
   $tables = db_query($q);
   // Switch back to the main database.
   db_set_active('default');
@@ -281,9 +281,9 @@ function views_database_connector_get_database_schema_pgsql($key) {
       // Switch to database in question.
       db_set_active($key);
       // Fetch column names and their data type from said table.
-      $q = "SELECT column_name, data_type FROM ";
-      $q .= "information_schema.columns WHERE table_name = :table;";
-      $cols = db_query($q, array(":table" => $v));
+      $q = 'SELECT column_name, data_type FROM ';
+      $q .= 'information_schema.columns WHERE table_name = :table;';
+      $cols = db_query($q, array(':table' => $v));
       // Switch back to the main database.
       db_set_active('default');
       $collist = array();
