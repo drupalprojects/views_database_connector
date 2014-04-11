@@ -83,6 +83,25 @@ function views_database_connector_views_data() {
               ),
             );
           }
+          if ($col[0] == 'broken') {
+            $data[$table[0]][$col[1]] = array(
+              'title' => $col[1],
+              'help' => $col[1],
+              'field' => array(
+                'handler' => 'views_handler_field_broken',
+                'click sortable' => TRUE,
+              ),
+              'sort' => array(
+                'handler' => 'views_handler_sort_broken',
+              ),
+              'filter' => array(
+                'handler' => 'views_handler_filter_broken',
+              ),
+              'argument' => array(
+                'handler' => 'views_handler_argument_broken',
+              ),
+            );
+          }
         }
       }
     }
