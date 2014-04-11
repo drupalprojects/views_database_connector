@@ -80,6 +80,24 @@ function views_database_connector_views_data() {
               ),
             );
           }
+          if ($col[0] == 'broken') {
+            $data[$table[0]][$col[1]] = array(
+              'title' => $col[1],
+              'help' => $col[1],
+              'field' => array(
+                'id' => 'broken',
+              ),
+              'sort' => array(
+                'id' => 'broken',
+              ),
+              'filter' => array(
+                'id' => 'broken',
+              ),
+              'argument' => array(
+                'id' => 'broken',
+              ),
+            );
+          }
         }
       }
     }
