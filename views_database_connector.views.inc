@@ -22,7 +22,7 @@ function views_database_connector_views_data() {
         $data[$table[0]]['table']['base'] = array(
           // Use the first column's name as the primary field.
           'field' => $table[1][0][1],
-          'title' => '[VDC] ' . $dname . ':  ' . $table[0],
+          'title' => '[VDC] ' . check_plain($dname) . ':  ' . $table[0],
           'database' => $dname,
           'weight' => -9001,
         );
