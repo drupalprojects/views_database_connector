@@ -17,12 +17,16 @@ function views_database_connector_views_data() {
     foreach ($db as $table) {
       // Make sure the table name hasn't been used before.
       if (!isset($data[$table[0]])) {
+        // Set the title.
+        $title = '[VDC] ' . check_plain($dname) . ':  ';
+        $title .= check_plain($table[0]);
+
         // Setup the table for Views to be able to see it.
         $data[$table[0]]['table']['group'] = $table[0];
         $data[$table[0]]['table']['base'] = array(
           // Use the first column's name as the primary field.
           'field' => $table[1][0][1],
-          'title' => '[VDC] ' . check_plain($dname) . ':  ' . $table[0],
+          'title' => $title,
           'database' => $dname,
           'weight' => -9001,
         );
@@ -245,7 +249,7 @@ function views_database_connector_get_database_schema_sqlite($key) {
         db_set_active($key);
         // Fetch column names and their data type from said table.
         $q = 'PRAGMA table_info(:table);';
-        $cols = db_query(str_ireplace(':table', $v, $q));
+        $cols = db_query(str_ireplace(':table', check_plain($v), $q));
         // Switch back to the main database.
         db_set_active('default');
         $collist = array();
