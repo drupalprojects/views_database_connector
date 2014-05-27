@@ -249,7 +249,7 @@ function views_database_connector_get_database_schema_sqlite($key) {
         db_set_active($key);
         // Fetch column names and their data type from said table.
         $q = 'PRAGMA table_info(:table);';
-        $cols = db_query(str_ireplace(':table', check_plain($v), $q));
+        $cols = db_query(str_ireplace(':table', $v, $q));
         // Switch back to the main database.
         db_set_active('default');
         $collist = array();
